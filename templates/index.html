@@ -24,7 +24,7 @@
     }
 
     var socket = new WebSocket("ws://localhost:5000/chat");
-    var uid = 1111;
+    var uid = createUID();
     var allMessages = [];
 
     socket.onopen = function (event) {
@@ -39,6 +39,14 @@
       var incomingMessage = JSON.parse(event.data);
       var $message = $('<p></p>)').text(incomingMessage["message"]);
       $("#text").append($message);
+    }
+
+    function createUID() {
+      return s4() + s4() + s4() + s4() + s4() + s4();
+    }
+
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16);
     }
 
     function clickHandler() {
