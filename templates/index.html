@@ -24,19 +24,21 @@
     }
 
     var socket = new WebSocket("ws://localhost:5000/chat");
+    var uid = 1111;
     var allMessages = [];
 
     socket.onopen = function (event) {
       console.log("Websocket open!");
     }
     
-    socket.onmessage = function (event) {
-      allMessages = JSON.parse(event.data);
-      updateMessagesOnPage();
-    }
-
     socket.onclose = function (event) {
       console.log("Websocket closed!");
+    }
+
+    socket.onmessage = function (event) {
+      var incomingMessage = JSON.parse(event.data);
+      var $message = $('<p></p>)').text(incomingMessage["message"]);
+      $("#text").append($message);
     }
 
     function clickHandler() {
@@ -44,15 +46,12 @@
     }
 
     function sendMessage(event) {
-      socket.send($('textarea').val());
-    }
+      var data = JSON.stringify({
+        uid: uid,
+        message: $('textarea').val()
+      });
 
-    function updateMessagesOnPage() {
-      $("#text").empty();
-      for (var i = 0; i < allMessages.length; i++) {
-        var message = $('<p></p>)').text(allMessages[i]);
-        $("#text").append(message);
-      }
+      socket.send(data);
     }
 
   </script>

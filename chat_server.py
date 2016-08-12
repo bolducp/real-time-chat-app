@@ -18,11 +18,11 @@ def echo_socket(web_socket):
     connections.append(web_socket)
 
     while not web_socket.closed:
-        message = web_socket.receive()
+        message = json.loads(web_socket.receive())
         messages.append(message)
         connections = [c for c in connections if not c.closed]
         for socket in connections:
-            socket.send(json.dumps(messages))
+            socket.send(json.dumps(message))
 
 
 if __name__ == "__main__":
