@@ -44,6 +44,7 @@ function sendMessage(event) {
     });
 
     socket.send(data);
+    $("textarea").val("");
 }
 
 function isUserMessage(message) {
