@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h2>Insert text here:</h2>
+    <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+    <button>Send</button>
+
+    <h2>Response:</h2>
+    <p id="text"></p>
+  </body>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(init);
+
+    function init(){
+      clickHandler();
+    }
+
+    var socket = new WebSocket("ws://localhost:5000/chat");
+
+    socket.onopen = function (event) {
+      socket.send("Websocket open!");
+    }
+    
+    socket.onmessage = function (event) {
+      console.log(event.data);
+      $("#text").text(event.data);
+    }
+
+    socket.onclose = function (event) {
+      alert("Websocket closed!");
+    }
+
+    function clickHandler() {
+      $('button').click(sendMessage);
+    }
+
+    function sendMessage(event) {
+        socket.send($('textarea').val());
+    }
+
+
+
+
+
+
+
+
+  </script>
+
+</html>
