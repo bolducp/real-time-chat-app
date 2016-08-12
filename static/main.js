@@ -19,6 +19,9 @@ socket.onclose = function (event) {
 socket.onmessage = function (event) {
     var incomingMessage = JSON.parse(event.data);
     var $message = $("<p></p>)").text(incomingMessage["message"]);
+    if (isUserMessage(incomingMessage)) {
+        $message.css({ color: "green" });
+    }
     $("#chat").append($message);
 }
 
@@ -41,4 +44,8 @@ function sendMessage(event) {
     });
 
     socket.send(data);
+}
+
+function isUserMessage(message) {
+    return message["uid"] === uid;
 }
