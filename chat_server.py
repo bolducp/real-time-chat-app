@@ -1,3 +1,4 @@
+import json
 from flask import Flask, render_template
 from flask_sockets import Sockets
 
@@ -21,7 +22,7 @@ def echo_socket(web_socket):
         messages.append(message)
         connections = [c for c in connections if not c.closed]
         for socket in connections:
-            socket.send("\n".join(messages))
+            socket.send(json.dumps(messages))
 
 
 if __name__ == "__main__":
