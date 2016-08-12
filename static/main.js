@@ -18,8 +18,8 @@ socket.onclose = function (event) {
 
 socket.onmessage = function (event) {
     var incomingMessage = JSON.parse(event.data);
-    var $message = $('<p></p>)').text(incomingMessage["message"]);
-    $("#text").append($message);
+    var $message = $("<p></p>)").text(incomingMessage["message"]);
+    $("#chat").append($message);
 }
 
 function createUID() {
@@ -31,13 +31,13 @@ function s4() {
 }
 
 function clickHandler() {
-    $('button').click(sendMessage);
+    $("button").click(sendMessage);
 }
 
 function sendMessage(event) {
     var data = JSON.stringify({
-    uid: uid,
-    message: $('textarea').val()
+        uid: uid,
+        message: $("textarea").val()
     });
 
     socket.send(data);

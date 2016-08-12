@@ -3,16 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif|Josefin+Sans" type="text/css">
+    <link rel="stylesheet" href="/static/style.css">
   </head>
   <body>
-
-    <h2>Response:</h2>
-    <div id="text"></div>
-
-    <h2>Insert text here:</h2>
-    <textarea name="textarea" rows="2" cols="50">Write something here</textarea>
-    <button>Send</button>
+    <div class="container">
+      <h2>Chat Room</h2>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-xs-12">
+          <div id="chat"></div>
+        </div>
+      </div>
+        <textarea name="textarea" rows="2" cols="70" placeholder="Write something here"></textarea><br>
+        <button>Send</button>
+    </div>
   </body>
 
   <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
