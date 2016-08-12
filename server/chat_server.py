@@ -17,16 +17,26 @@ connections = []
 messages = []
 
 @sockets.route("/chat")
-def echo_socket(web_socket):
+def chat_socket(web_socket):
     global connections
-    connections.append(web_socket)
+    connections = add_socket(web_socket, connections)
 
     while not web_socket.closed:
         message = json.loads(web_socket.receive())
         messages.append(message)
-        connections = [c for c in connections if not c.closed]
-        for socket in connections:
-            socket.send(json.dumps(message))
+        connections = remove_closed_sockets(connections)
+        json_message = json.dumps(message)
+        send_message(json_message, connections)
+
+def add_socket(web_socket, connections):
+    return connections + [web_socket]
+
+def remove_closed_sockets(connections):
+    return [c for c in connections if not c.closed]
+
+def send_message(message, connections):
+    for socket in connections:
+        socket.send(message)
 
 
 if __name__ == "__main__":
