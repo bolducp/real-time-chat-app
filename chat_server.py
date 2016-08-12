@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from flask_sockets import Sockets
 
-
 app = Flask(__name__)
 sockets = Sockets(app)
 
@@ -10,6 +9,7 @@ def index():
     return render_template("index.html")
 
 connections = []
+messages = []
 
 @sockets.route("/chat")
 def echo_socket(web_socket):
@@ -18,9 +18,10 @@ def echo_socket(web_socket):
 
     while not web_socket.closed:
         message = web_socket.receive()
+        messages.append(message)
         connections = [c for c in connections if not c.closed]
         for socket in connections:
-            socket.send(message)
+            socket.send("\n".join(messages))
 
 
 if __name__ == "__main__":

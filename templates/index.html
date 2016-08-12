@@ -23,6 +23,7 @@
     }
 
     var socket = new WebSocket("ws://localhost:5000/chat");
+    var sentMessages = [];
 
     socket.onopen = function (event) {
       socket.send("Websocket open!");
@@ -42,16 +43,9 @@
     }
 
     function sendMessage(event) {
-        socket.send($('textarea').val());
+      sentMessages.push($('textarea').val());
+      socket.send($('textarea').val());
     }
-
-
-
-
-
-
-
-
   </script>
 
 </html>
