@@ -2,6 +2,7 @@ $(document).ready(init);
 
 function init(){
     clickHandler();
+    setRandomBackgroundColor();
 }
 
 var socket = new WebSocket("ws://localhost:5000/chat");
@@ -49,4 +50,12 @@ function sendMessage(event) {
 
 function isUserMessage(message) {
     return message["uid"] === uid;
+}
+
+function setRandomBackgroundColor() {
+    var colors = [
+        "LightSteelBlue", "LightSalmon", "LightYellow", "LightSeaGreen", "MistyRose", "PaleTurquoise", "PaleVioletRed", "Thistle", "Lavender", "DarkTurquoise", "DarkSeaGreen", "CadetBlue", "LightGoldenRodYellow", "LightCyan", "LightCoral"
+    ];
+    var randomIndex = Math.floor(Math.random() * colors.length);
+    $("body").css({ "background-color": colors[randomIndex]});
 }
