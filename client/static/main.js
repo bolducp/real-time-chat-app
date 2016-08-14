@@ -3,6 +3,7 @@ $(document).ready(init);
 function init(){
     clickHandler();
     setRandomBackgroundColor();
+    getAllMessages();
 }
 
 var socket = new WebSocket("ws://" + window.location.host + "/chat");
@@ -58,4 +59,21 @@ function setRandomBackgroundColor() {
     ];
     var randomIndex = Math.floor(Math.random() * colors.length);
     $("body").css({ "background-color": colors[randomIndex]});
+}
+
+function getAllMessages() {
+    $.ajax({
+        url: "/messages",
+        type: "GET",
+        success: function(data){
+            setUpChat(data);
+        },
+        error: function(err){
+            alert(err);
+        }
+    });
+}
+
+function setUpChat(messages) {
+    console.log("MESSAGES", messages);
 }

@@ -38,6 +38,10 @@ def send_message(message, connections):
     for socket in connections:
         socket.send(message)
 
+@app.route("/messages")
+def send_messages():
+    return json.dumps(messages)
+    
 
 if __name__ == "__main__":
     from gevent import pywsgi
