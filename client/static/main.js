@@ -5,7 +5,7 @@ function init(){
     setRandomBackgroundColor();
 }
 
-var socket = new WebSocket("ws://localhost:5000/chat");
+var socket = new WebSocket("ws://" + window.location.host + "/chat");
 var uid = createUID();
 var allMessages = [];
 
