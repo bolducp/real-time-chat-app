@@ -20,12 +20,16 @@ socket.onclose = function (event) {
 
 socket.onmessage = function (event) {
     var incomingMessage = JSON.parse(event.data);
-    var $message = $("<p></p>)").text(incomingMessage["message"]);
-    if (isUserMessage(incomingMessage)) {
+    addMessageToChatScreen(incomingMessage);
+}
+
+function addMessageToChatScreen(message) {
+    var $message = $("<p></p>)").text(message["message"]);
+    if (isUserMessage(message)) {
         $message.css({ color: "green" });
     }
     $("#chat").append($message);
-}
+} 
 
 function createUID() {
     return s4() + s4() + s4() + s4() + s4() + s4();
@@ -66,7 +70,8 @@ function getAllMessages() {
         url: "/messages",
         type: "GET",
         success: function(data){
-            setUpChat(data);
+            var messageData = JSON.parse(data);
+            setUpChat(messageData);
         },
         error: function(err){
             alert(err);
@@ -75,5 +80,7 @@ function getAllMessages() {
 }
 
 function setUpChat(messages) {
-    console.log("MESSAGES", messages);
+    for (var i = 0; i < messages.length; i++) {
+        addMessageToChatScreen(messages[i]);
+    }
 }
