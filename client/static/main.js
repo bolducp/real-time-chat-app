@@ -6,7 +6,13 @@ function init(){
     getAllMessages();
 }
 
-var socket = new WebSocket("wss://" + window.location.host + "/chat");
+if (window.location.protocol == "https:") {
+  var ws_scheme = "wss://";
+} else {
+  var ws_scheme = "ws://";
+}
+
+var socket = new ReconnectingWebSocket(ws_scheme + location.host + "/chat");
 var uid = createUID();
 var allMessages = [];
 
