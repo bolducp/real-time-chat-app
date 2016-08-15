@@ -12,7 +12,7 @@ if (window.location.protocol == "https:") {
   var ws_scheme = "ws://";
 }
 
-var socket = new ReconnectingWebSocket(ws_scheme + location.host + "/chat");
+var socket = new WebSocket(ws_scheme + location.host + "/chat");
 var uid = createUID();
 var allMessages = [];
 
