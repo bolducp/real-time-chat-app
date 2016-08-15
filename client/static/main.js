@@ -6,7 +6,7 @@ function init(){
     getAllMessages();
 }
 
-var socket = new WebSocket("ws://" + window.location.host + "/chat");
+var socket = new WebSocket("wss://" + window.location.host + "/chat");
 var uid = createUID();
 var allMessages = [];
 
