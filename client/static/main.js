@@ -5,9 +5,6 @@ function init(){
     setRandomBackgroundColor();
     getAllMessages();
     getAllUsernames();
-
-    var username = generateRandomUsername();
-    initializeRandomUsername(username);
 }
 
 if (window.location.protocol == "https:") {
@@ -121,6 +118,8 @@ function getAllUsernames() {
         success: function(data){
             var responseData = JSON.parse(data);
             usernames = responseData;
+            var username = generateRandomUsername();
+            initializeRandomUsername(username);
         },
         error: function(err){
             alert(err);
