@@ -63,8 +63,8 @@ function s4() {
 }
 
 function clickHandler() {
-    $("button").click(sendMessage);
-    $("#username").click(updateUsername);
+    $("#sendMessage").click(sendMessage);
+    $("#updateUsername").click(updateUsername);
 }
 
 function sendMessage(event) {
@@ -78,12 +78,16 @@ function sendMessage(event) {
 }
 
 function updateUsername() {
+    var newUsername = $("input").val();
+
     var data = JSON.stringify({
         uid: uid,
-        username: $("input").val()
+        username: newUsername
     });
 
     socket.send(data);
+    $("input").val("");
+    $("#username").text(newUsername);
 }
 
 function isUserMessage(message) {
