@@ -13,5 +13,6 @@
 run `py.test` anywhere in the project
 
 #### view live
-the app is deployed on Heroku here: https://flask-realtime-chat-app.herokuapp.com/ 
-however, there are still some deployment-related bugs that I need to work out
+The app is deployed on Heroku here: https://flask-realtime-chat-app.herokuapp.com/ 
+
+However, there are still some deployment-related bugs that I need to work out. Please run locally to see full functionality.
