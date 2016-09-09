@@ -50,15 +50,9 @@ def send_message(message, connections):
 def send_messages():
     return json.dumps(messages)
 
-@app.route("/usernames",  methods=["GET", "POST"])
+@app.route("/usernames",  methods=["GET"])
 def manage_username():
-    global usernames
-
-    if request.method == "POST":
-        usernames[request.form["uid"]] = request.form["username"]
-        return json.dumps(usernames)
-    else:
-        return json.dumps(usernames)
+    return json.dumps(usernames)
     
 
 if __name__ == "__main__":
