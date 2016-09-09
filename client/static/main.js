@@ -101,9 +101,10 @@ function s4() {
 function clickHandler() {
     $("#sendMessage").click(sendMessage);
     $("#updateUsername").click(updateUsername);
+    $("textarea").keyup(sendOnEnter);
 }
 
-function sendMessage(event) {
+function sendMessage() {
     var data = JSON.stringify({
         uid: uid,
         message: $("textarea").val()
@@ -124,6 +125,12 @@ function updateUsername() {
     socket.send(data);
     $("input").val("");
     $("#username").text(newUsername);
+}
+
+function sendOnEnter(event){
+    if(event.keyCode == 13) {
+        sendMessage();
+    }
 }
 
 function isUserMessage(message) {

@@ -53,7 +53,6 @@ def send_messages():
 @app.route("/usernames",  methods=["GET"])
 def manage_username():
     return json.dumps(usernames)
-    
 
 if __name__ == "__main__":
     from gevent import pywsgi
