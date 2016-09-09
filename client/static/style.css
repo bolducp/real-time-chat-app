@@ -19,6 +19,12 @@ body {
 
 #greeting {
     font-size: 16px;
+    padding-bottom: 10px;
+}
+
+#updateUsername{
+    background-color: white;
+    border: 1px solid black;
 }
 
 h1, h2, h3 {
