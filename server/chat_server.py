@@ -1,5 +1,5 @@
 import json
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request
 from flask_sockets import Sockets
 
 app = Flask(__name__)
@@ -15,6 +15,7 @@ def send_static(path):
 
 connections = []
 messages = []
+usernames = {}
 
 @sockets.route("/chat")
 def chat_socket(web_socket):
@@ -41,6 +42,16 @@ def send_message(message, connections):
 @app.route("/messages")
 def send_messages():
     return json.dumps(messages)
+
+@app.route("/usernames",  methods=["GET", "POST"])
+def manage_username():
+    global usernames
+
+    if request.method == "POST":
+        usernames[request.form["uid"]] = request.form["username"]
+        return json.dumps(usernames)
+    else:
+        return json.dumps(usernames)
     
 
 if __name__ == "__main__":

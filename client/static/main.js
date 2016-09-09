@@ -47,6 +47,7 @@ function s4() {
 
 function clickHandler() {
     $("button").click(sendMessage);
+    $("#username").click(updateUsername);
 }
 
 function sendMessage(event) {
@@ -78,6 +79,27 @@ function getAllMessages() {
         success: function(data){
             var messageData = JSON.parse(data);
             setUpChat(messageData);
+            console.log(messageData);
+        },
+        error: function(err){
+            alert(err);
+        }
+    });
+}
+
+function updateUsername() {
+    var username = $("input").val();
+
+    $.ajax({
+        url: "/usernames",
+        type: "POST",
+        data: {
+            uid: uid,
+            username: username
+        },
+        success: function(data){
+            var responseData = JSON.parse(data);
+            console.log(responseData);
         },
         error: function(err){
             alert(err);
