@@ -5,6 +5,9 @@ function init(){
     setRandomBackgroundColor();
     getAllMessages();
     getAllUsernames();
+
+    var username = generateRandomUsername();
+    initializeRandomUsername(username);
 }
 
 if (window.location.protocol == "https:") {
@@ -56,6 +59,39 @@ function getUsername(uid) {
 
 function createUID() {
     return s4() + s4() + s4() + s4() + s4() + s4();
+}
+
+function generateRandomUsername() {
+    var adjectives =  [   
+        "affable", "agreeable", "ambitious", "amicable", "amusing", "charming", "conscientious",
+        "considerate", "diligent", "dynamic", "exuberant", "gregarious", "imaginative", "inventive",
+        "optimistic", "persistent", "pioneering", "philosophical", "practical", "rational", "reliable", 
+        "resourceful", "sensible", "sincere", "sociable", "versatile", "warmhearted", "witty"
+    ];
+
+    var animals = [ 
+        "anaconda", "macaw", "butterfly", "crocodile", "dragonfly", "mongoose", "fox", "gecko", "armadillo", 
+        "hummingbird", "iguana", "katydid", "lemur", "leopard", "puma", "panda", "sloth", "sting-ray"
+    ];
+
+    return toTitleCase(adjectives[Math.floor(Math.random() * adjectives.length)] + " " + animals[Math.floor(Math.random() * animals.length)]);
+}
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
+
+function initializeRandomUsername(username) {
+    var data = JSON.stringify({
+        uid: uid,
+        username: username
+    });
+
+    socket.send(data);
+    $("#username").text(username);
 }
 
 function s4() {
