@@ -116,6 +116,9 @@ function sendMessage() {
 
 function updateUsername() {
     var newUsername = $("input").val();
+    if (!newUsername || !(newUsername.trim())) {
+        newUsername = "anonymous";
+    }
 
     var data = JSON.stringify({
         uid: uid,
