@@ -4,6 +4,7 @@ function init(){
     clickHandler();
     setRandomBackgroundColor();
     getAllMessages();
+    getAllUsernames();
 }
 
 if (window.location.protocol == "https:") {
@@ -15,6 +16,7 @@ if (window.location.protocol == "https:") {
 var socket = new WebSocket(ws_scheme + location.host + "/chat");
 var uid = createUID();
 var allMessages = [];
+var usernames = {};
 
 socket.onopen = function (event) {
     console.log("Websocket open!");
@@ -26,16 +28,31 @@ socket.onclose = function (event) {
 
 socket.onmessage = function (event) {
     var incomingMessage = JSON.parse(event.data);
-    addMessageToChatScreen(incomingMessage);
+
+    if (incomingMessage["message"]) {
+        addMessageToChatScreen(incomingMessage);
+    } else if (incomingMessage["usernames"]) {
+        usernames = incomingMessage["usernames"];
+    }
 }
 
 function addMessageToChatScreen(message) {
-    var $message = $("<p></p>)").text(message["message"]);
+    var $line = $("<div></div>");
+    var $message = $("<span></span>").text(message["message"]);
+    var username = getUsername(message["uid"]);
+    var $username = $("<span></span>").text(username);
+
     if (isUserMessage(message)) {
         $message.css({ color: "green" });
     }
-    $("#chat").append($message);
+
+    $line.append($username, ": ", $message);
+    $("#chat").append($line);
 } 
+
+function getUsername(uid) {
+    return usernames[uid] || uid;
+}
 
 function createUID() {
     return s4() + s4() + s4() + s4() + s4() + s4();
@@ -58,6 +75,15 @@ function sendMessage(event) {
 
     socket.send(data);
     $("textarea").val("");
+}
+
+function updateUsername() {
+    var data = JSON.stringify({
+        uid: uid,
+        username: $("input").val()
+    });
+
+    socket.send(data);
 }
 
 function isUserMessage(message) {
@@ -87,19 +113,13 @@ function getAllMessages() {
     });
 }
 
-function updateUsername() {
-    var username = $("input").val();
-
+function getAllUsernames() {
     $.ajax({
         url: "/usernames",
-        type: "POST",
-        data: {
-            uid: uid,
-            username: username
-        },
+        type: "GET",
         success: function(data){
             var responseData = JSON.parse(data);
-            console.log(responseData);
+            usernames = responseData;
         },
         error: function(err){
             alert(err);

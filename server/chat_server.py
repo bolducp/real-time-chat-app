@@ -19,15 +19,24 @@ usernames = {}
 
 @sockets.route("/chat")
 def chat_socket(web_socket):
-    global connections
+    global connections, usernames
     connections = add_socket(web_socket, connections)
 
     while not web_socket.closed:
-        message = json.loads(web_socket.receive())
-        messages.append(message)
-        connections = remove_closed_sockets(connections)
-        json_message = json.dumps(message)
-        send_message(json_message, connections)
+        data = json.loads(web_socket.receive())
+
+        if "message" in data:
+            messages.append(data)
+            connections = remove_closed_sockets(connections)
+            json_message = json.dumps(data)
+            send_message(json_message, connections)
+
+        elif "username" in data:
+            usernames[data["uid"]] = data["username"]
+            connections = remove_closed_sockets(connections)
+            json_message = json.dumps( { "usernames" : usernames } )
+            send_message(json_message, connections)
+
 
 def add_socket(web_socket, connections):
     return connections + [web_socket]
