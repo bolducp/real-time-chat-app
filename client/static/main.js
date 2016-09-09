@@ -101,21 +101,21 @@ function s4() {
 function clickHandler() {
     $("#sendMessage").click(sendMessage);
     $("#updateUsername").click(updateUsername);
-    $("textarea").keyup(sendOnEnter);
+    $("#message_input").keyup(sendOnEnter);
 }
 
 function sendMessage() {
     var data = JSON.stringify({
         uid: uid,
-        message: $("textarea").val()
+        message: $("#message_input").val()
     });
 
     socket.send(data);
-    $("textarea").val("");
+    $("#message_input").val("");
 }
 
 function updateUsername() {
-    var newUsername = $("input").val();
+    var newUsername = $("#username_input").val();
     if (!newUsername || !(newUsername.trim())) {
         newUsername = "anonymous";
     }
@@ -126,7 +126,7 @@ function updateUsername() {
     });
 
     socket.send(data);
-    $("input").val("");
+    $("#username_input").val("");
     $("#username").text(newUsername);
 }
 
