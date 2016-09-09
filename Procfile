@@ -1,1 +1,1 @@
-web: gunicorn server.chat_server:app
+web: gunicorn -k flask_sockets.worker server.chat_server:app
