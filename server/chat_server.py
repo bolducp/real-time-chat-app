@@ -24,20 +24,18 @@ def chat_socket(web_socket):
 
     while not web_socket.closed:
         data = json.loads(web_socket.receive())
+        connections = remove_closed_sockets(connections)
 
         if "message" in data:
             messages.append(data)
-            connections = remove_closed_sockets(connections)
             json_message = json.dumps(data)
-            send_message(json_message, connections)
 
         elif "username" in data:
             usernames[data["uid"]] = data["username"]
-            connections = remove_closed_sockets(connections)
             json_message = json.dumps( { "usernames" : usernames } )
-            send_message(json_message, connections)
-
-
+        
+        send_message(json_message, connections)
+        
 def add_socket(web_socket, connections):
     return connections + [web_socket]
 
